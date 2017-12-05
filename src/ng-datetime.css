@@ -85,6 +85,10 @@ ng-datetime,
   opacity: 1;
 }
 
+.date-picker .md-button .material-icons{
+  vertical-align: middle;
+}
+
 .date-picker tr {
   border: 1px solid white;
 }

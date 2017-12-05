@@ -5,6 +5,7 @@
   <title>ngDatetime</title>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="http://7xlphe.com1.z0.glb.clouddn.com/angular-material.min-1.1.1.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../src/ng-datetime.css">
   <style>
     .wrapper {
@@ -22,7 +23,7 @@
 
 <body style="margin: 20px;">
   <div ng-controller="MyController">
-    <div class="ng-datetime" ng-if="false">
+    <div class="md-datetime" ng-if="false">
       <div layout="row">
         <ul layout="column" class="quick-select">
           <li flex="50" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]">
@@ -123,39 +124,46 @@
       </div>
     </div>
     <div class="wrapper">
-      <h3>Date Picker with max & min</h3>
-      <h4>You select: {{ date }}</h4>
-      <ng-datetime dt-type="date" choice="date" dt-confirm="confirm(choice)" max="{{ max }}" min="{{ min }}"></ng-datetime>
+    <md-input-container flex>
+        <label>股票名称</label>
+        <input ng-model="query.stockCode">
+      </md-input-container>
+        <md-datetime dt-type="date" choice="date" dt-confirm="confirm(choice)" max="{{ max }}" min="{{ min }}"></md-datetime>
+  
+      <md-input-container>
+        <label>编码</label>
+      <md-datetime dt-type="date" choice="date" dt-confirm="confirm(choice)" max="{{ max }}" min="{{ min }}"></md-datetime>
+      </md-input-container>
     </div>
     <div class="wrapper">
       <h3>Time Picker</h3>
       <h4>You select: {{ time }}</h4>
-      <ng-datetime dt-type="time" choice="time" dt-confirm="confirm(choice)"></ng-datetime>
+      <md-datetime dt-type="time" choice="time" dt-confirm="confirm(choice)"></md-datetime>
     </div>
     <div class="wrapper">
       <h3>Datetime Picker with quick-select</h3>
       <h4>You select: {{ datetime }}</h4>
-      <ng-datetime dt-type="datetime" choice="datetime" dt-q-select="qSelect" dt-confirm="confirm(choice)"></ng-datetime>
+      <md-datetime dt-type="datetime" choice="datetime" dt-q-select="qSelect" dt-confirm="confirm(choice)"></md-datetime>
     </div>
     <div class="wrapper">
       <h3>Date-Range Picker with max-length = 10 days & min-length = 5 days</h3>
       <h4>You select: {{ startDate }} to {{ endDate }}</h4>
-      <ng-datetime dt-type="date-range" start-choice="startDate" end-choice="endDate" dt-confirm="confirm(startChoice, endChoice)" max-length="10" min-length="5"></ng-datetime>
+      <md-datetime dt-type="date-range" start-choice="startDate" end-choice="endDate" dt-confirm="confirm(startChoice, endChoice)" max-length="10" min-length="5"></md-datetime>
     </div>
     <div class="wrapper">
       <h3>Time-Range Picker</h3>
       <h4>You select: {{ startTime }} to {{ endTime }}</h4>
-      <ng-datetime dt-type="time-range" start-choice="startTime" end-choice="endTime" dt-confirm="confirm(startChoice, endChoice)"></ng-datetime>
+      <md-datetime dt-type="time-range" start-choice="startTime" end-choice="endTime" dt-confirm="confirm(startChoice, endChoice)"></md-datetime>
     </div>
     <div class="wrapper">
       <h3>Datetime-Range Picker with quick-select</h3>
       <h4>You select: {{ startDatetime }} to {{ endDatetime }}</h4>
-      <ng-datetime dt-type="datetime-range" start-choice="startDatetime" end-choice="endDatetime" dt-confirm="confirm(startChoice, endChoice)" dt-q-select="qSelectRange"></ng-datetime>
+      <md-datetime dt-type="datetime-range" start-choice="startDatetime" end-choice="endDatetime" dt-confirm="confirm(startChoice, endChoice)" dt-q-select="qSelectRange"></md-datetime>
     </div>
     <div class="wrapper">
       <h3>Date-TimeRange Picker with customer language</h3>
       <h4>You select: {{ startDatetime0 }} to {{ endDatetime0 }}</h4>
-      <ng-datetime dt-type="date-timerange" start-choice="startDatetime0" end-choice="endDatetime0" dt-confirm="confirm(startChoice, endChoice)" dt-language="dtLanguage"></ng-datetime>
+      <md-datetime dt-type="date-timerange" start-choice="startDatetime0" end-choice="endDatetime0" dt-confirm="confirm(startChoice, endChoice)" dt-language="dtLanguage"></md-datetime>
     </div>
   </div>
   <script type="text/javascript" src="http://7xlphe.com1.z0.glb.clouddn.com/angular.min-1.5.8.js"></script>
@@ -163,10 +171,9 @@
   <script type="text/javascript" src="http://7xlphe.com1.z0.glb.clouddn.com/angular-aria.min-1.5.8.js"></script>
   <script type="text/javascript" src="http://7xlphe.com1.z0.glb.clouddn.com/angular-messages.min-1.5.8.js"></script>
   <script type="text/javascript" src="http://7xlphe.com1.z0.glb.clouddn.com/angular-material.min-1.1.1.js"></script>
-  <script type="text/javascript" src="http://7xlphe.com1.z0.glb.clouddn.com/angular-material-icons.min.js"></script>
-  <script type="text/javascript" src="https://cdn.bootcss.com/moment.js/2.6.0/moment.js"></script>
+  <script type="text/javascript" src="https://cdn.bootcss.com/moment.js/2.17.1/moment.js"></script>
 
-  <script type="text/javascript" src="../src/ng-datetime.js"></script>
+  <script type="text/javascript" src="../src/md-datetime-picker.js"></script>
   <script type="text/javascript" src="demo.js"></script>
 </body>
 

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('MyApp', ['ngMaterial', 'ngMdIcons', 'ngDatetimePicker'])
+  angular.module('MyApp', ['ngMaterial', 'ngDatetimePicker'])
     .controller('MyController', function($scope) {
       var m = moment();
       $scope.date = m.format('YYYY-MM-DD');
