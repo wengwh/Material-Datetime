@@ -262,17 +262,19 @@
   function mdDatetimeDirective() {
     return {
       restrict: 'E',
+      require: 'choice',
       scope: {
         dtType: '@',
         dtQSelect: '=',
         dtConfirm: '&',
         dtCancel: '&',
         format: '@',
-
+        
         // datetime params
         startChoice: '=',
         endChoice: '=',
         choice: '=',
+        splitChoice: '@',
 
         // restrict datetime params
         max: '@',
@@ -285,7 +287,7 @@
       },
       template: [
       	'<input ng-click="open($event)" ng-change="init()" ng-model="choice" ></input>',
-      	'<div dt-id="" ng-if="isPanelLoading" ng-class="isPanelOpen ? \'open\' : \'\'" class="md-datetime-wrapper">',
+      	'<div dt-id="{{dtId}}" ng-if="isPanelLoading" ng-class="isPanelOpen ? \'open\' : \'\'" class="md-datetime-wrapper">',
         '<div class="md-datetime">',
         '  <div layout="row">',
         TEMPLATE_QUICK_SELECT,
@@ -304,7 +306,16 @@
        console.log('cant find momentjs lib');
        return;
      }
+  	 var bodyEle = $document[0].body;
+     var docWidth = bodyEle.offsetWidth;
+     var docHeight = bodyEle.offsetHeight;
+     $scope.dtId = (Math.random() + '').substr(2);
 
+     $scope.isDtDialog = $attrs.dtDialog !== undefined;
+
+     $scope.isPanelLoading = false;
+     $scope.isPanelOpen = false;
+     
      $scope.months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
      $scope.hours = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
      $scope.minutesSeconds = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59'];
@@ -395,6 +406,22 @@
      $scope.isSetToday = $scope.dtType === DATE_TYPE.DATE || $scope.dtType === DATE_TYPE.DATETIME || $scope.dtType === DATE_TYPE.DATE_TIMERANGE;
      $scope.isDiaplayBlock = $scope.dtType === DATE_TYPE.TIME_RANGE || $scope.dtType === DATE_TYPE.DATE_TIMERANGE;
 
+     
+     if($scope.isRange){
+    	 $scope.splitChoice = $scope.splitChoice?$scope.splitChoice:'至';
+    	 
+    	 $scope.$watch('choice', function (newValue, oldValue) {
+    		 console.info("watch:"+newValue)
+    		 if(newValue === '' || newValue === null){
+    			 $scope.startChoice = null;
+    			 $scope.endChoice = null;
+    		 }else{
+    			 $scope.startChoice = newValue.split($scope.splitChoice)[0];
+    			 $scope.endChoice = newValue.split($scope.splitChoice)[1];
+    		 }
+       });
+     }
+     
      $scope.setDate = function(picker, dayInfo) {
        $scope.setPickerDatetimeInfo(picker, dayInfo.datetime);
      };
@@ -461,15 +488,6 @@
        }
 
        var dtType = $scope.dtType;
-       //var oneDaySeconds = 24 * 60 * 60;
-       // if ((dtType === DATE_TYPE.DATE || dtType === DATE_TYPE.DATE_RANGE) && seconds < oneDaySeconds) {
-       //   return;
-       // }
-
-       // if ((dtType === DATE_TYPE.TIME || dtType === DATE_TYPE.TIME_RANGE) && seconds > oneDaySeconds) {
-       //   return;
-       // }
-
        if(picker) {
          $scope._setToday(picker);
          $scope.minusSeconds(picker, seconds);
@@ -554,6 +572,10 @@
          }
 
          $scope.closeCalendarPanel();
+
+         if($scope.isDtDialog) {
+           $mdDialog.cancel();
+         }
        },
        confirm: function() {
          var picker0 = $scope.pickers[0];
@@ -562,27 +584,21 @@
            if(picker0 && picker1) {
              $scope.startChoice = moment(picker0.datetime).format($scope.format);
              $scope.endChoice = moment(picker1.datetime).format($scope.format);
+             $scope.choice = $scope.startChoice+$scope.splitChoice+$scope.endChoice;
              $scope.dtConfirm({ startChoice: $scope.startChoice, endChoice: $scope.endChoice });
            } else {
              $scope.choice = moment(picker0.datetime).format($scope.format);
              $scope.dtConfirm({ choice: $scope.choice });
            }
          }
-         $scope.closeCalendarPanel();
+         $scope.closeCalendarPanel(); 
+         if($scope.isDtDialog) {
+           $mdDialog.cancel();
+         }
        }
      });
 
      $scope.init();
-  	
-    var bodyEle = $document[0].body;
-    var docWidth = bodyEle.offsetWidth;
-    var docHeight = bodyEle.offsetHeight;
-    var dtId = $element.attr('dt-id');
-
-    $scope.isDtDialog = $attrs.dtDialog !== undefined;
-
-    $scope.isPanelLoading = false;
-    $scope.isPanelOpen = false;
 
     $scope.$on('$destroy', function() {
       var wrapper = $scope.getCorrectDatetimePicker().parent();
@@ -626,12 +642,12 @@
     };
 
     $scope.getCorrectDatetimePicker = function() {
-      var allDTs = angular.element(bodyEle).find('md-datetime');
+      var allDTs = angular.element(document.querySelectorAll('.md-datetime-wrapper'));
       var dtEle;
       for(var i = 0; i < allDTs.length; i++) {
         dtEle = angular.element(allDTs[i]);
-        if(dtEle.parent().attr('dt-id') === dtId) {
-          return dtEle;
+        if(dtEle.attr('dt-id') === $scope.dtId) {
+        	return angular.element(dtEle.children()[0]);
         }
       }
       return allDTs;
@@ -640,7 +656,13 @@
     $scope.appendCalendarPanel = function() {
       var deferred = $q.defer();
       $timeout(function() { // append ng-datetime-wrapper to body
-        angular.element(bodyEle).append($element.find('md-datetime').parent());
+        var childEle;
+      	for(var j=0; j< $element.children().length; j++){
+        	childEle = angular.element($element.children()[j]);
+        	 if(childEle.attr('dt-id') === $scope.dtId) {
+             angular.element(bodyEle).append($element.children()[j]);
+           }
+        }
         deferred.resolve();
       });
       return deferred.promise;
@@ -654,11 +676,10 @@
 
     $scope.calcPosition = function () {
       var datetimeEle = $scope.getCorrectDatetimePicker();
-      console.info(datetimeEle)
       var datetimeEleWidth = 0;
       var datetimeEleHeight = 0;
       var datetimeEleParent = datetimeEle.parent();
-      var elePositionRect = $mdUtil.offsetRect($element[0], bodyEle);
+      var elePositionRect = $mdUtil.offsetRect(angular.element($element[0]).find('input'), bodyEle);
       var x50 = false;
       elePositionRect.right = elePositionRect.left + elePositionRect.width;
       elePositionRect.bottom = elePositionRect.top + elePositionRect.height;
@@ -688,25 +709,19 @@
 
     $scope.showDatatimePickerDialog = function (ev) {
       $mdDialog.show({
-        controller: ['$mdDialog', 'resolveData', DialogController],
-        controllerAs: 'vm',
+      	scope: $scope.$new(),
         template: [
           '<md-dialog aria-label="日期时间选择">',
-          NG_DATETIME_TEMPLATE,
+          '<div class="md-datetime">',
+          '  <div layout="row">',
+          TEMPLATE_QUICK_SELECT,
+          TEMPLATE_DATE,
+          '  </div>',
+          TEMPLATE_ACTIONS,
+          '</div>',
           '</md-dialog>'
         ].join(''),
-        targetEvent: ev,
-        transclude: true,
-        resolve: {
-          resolveData: function () {
-            return vm;
-          }
-        }
-      }).then(function (data) {
-        $scope.startChoice = $scope.startChoice = data.startChoice;
-        $scope.endChoice = $scope.endChoice = data.endChoice;
-        $scope.choice = $scope.choice = data.choice;
-        $scope.dtConfirm(data);
+        targetEvent: ev
       });
     };
 
@@ -720,19 +735,6 @@
    
   }
 
-	function DialogController($mdDialog, resolveData) {
-	  var vm = this;
-	
-	  angular.extend(vm, resolveData);
-	  $scope.save = function (startChoice, endChoice, choice) {
-	    $mdDialog.hide({ startChoice: startChoice, endChoice: endChoice, choice: choice });
-	  };
-	
-	  $scope.cancel = function () {
-	    $mdDialog.cancel();
-	  };
-	}
-
   /**
    * calc one month days, include current month date, pre month date, next month date
    * @param { object } scope
@@ -741,8 +743,6 @@
    */
   function calcDays(scope, datetime) {
     var datetimeMoment = moment(datetime);
-
-    // console.log(datetimeMoment);
 
     var days = new Array(42);
     var dayLength = datetimeMoment.daysInMonth();

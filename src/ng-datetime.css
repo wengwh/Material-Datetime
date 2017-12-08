@@ -1,5 +1,8 @@
-ng-datetime,
-.ng-datetime {
+md-datetime {
+  border-radius: 4px;
+  display: inline-block;
+}
+.md-datetime {
   background: white;
   border-radius: 4px;
   display: inline-block;
@@ -174,12 +177,12 @@ md-menu-content.flex-menu-content.minute-menu-content {
   margin: 0 !important;
 }
 
-ng-datetime-picker {
+md-datetime-picker {
   display: inline-block;
   position: relative;
 }
 
-ng-datetime-picker .text-mode-input {
+md-datetime-picker .text-mode-input {
   border-bottom: 1px solid #ddd;
   cursor: pointer;
   line-height: 28px;
@@ -187,7 +190,7 @@ ng-datetime-picker .text-mode-input {
   padding: 4px 2px;
 }
 
-.ng-datetime-wrapper {
+.md-datetime-wrapper {
   /*transition: all 0.35s;*/
   border-radius: 4px;
   box-shadow: 0px 0px 15px 0px #aaa;
@@ -206,7 +209,7 @@ ng-datetime-picker .text-mode-input {
   z-index: 99;
 }
 
-.ng-datetime-wrapper.open {
+.md-datetime-wrapper.open {
   transform: scale3d(1, 1, 1);
   -webkit-transform: scale3d(1, 1, 1);
   -o-transform: scale3d(1, 1, 1);
@@ -214,7 +217,7 @@ ng-datetime-picker .text-mode-input {
   -moz-transform: scale3d(1, 1, 1);
 }
 
-.ng-datetime-wrapper.open.x50 {
+.md-datetime-wrapper.open.x50 {
   transform: scale3d(1, 1, 1) translateX(-50%);
   -webkit-transform: scale3d(1, 1, 1) translateX(-50%);
   -o-transform: scale3d(1, 1, 1) translateX(-50%);
@@ -222,7 +225,7 @@ ng-datetime-picker .text-mode-input {
   -moz-transform: scale3d(1, 1, 1) translateX(-50%);
 }
 
-.ng-datetime-wrapper.open.y50 {
+.md-datetime-wrapper.open.y50 {
   transform: scale3d(1, 1, 1) translateY(-50%);
   -webkit-transform: scale3d(1, 1, 1) translateY(-50%);
   -o-transform: scale3d(1, 1, 1) translateY(-50%);
@@ -230,7 +233,7 @@ ng-datetime-picker .text-mode-input {
   -moz-transform: scale3d(1, 1, 1) translateY(-50%);
 }
 
-.ng-datetime-wrapper.open.xy50 {
+.md-datetime-wrapper.open.xy50 {
   transform: scale3d(1, 1, 1) translate3d(-50%, -50%, 0);
   -webkit-transform: scale3d(1, 1, 1) translate3d(-50%, -50%, 0);
   -o-transform: scale3d(1, 1, 1) translate3d(-50%, -50%, 0);
