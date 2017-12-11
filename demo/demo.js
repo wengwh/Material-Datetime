@@ -10,19 +10,15 @@
 
       $scope.startDate = m.format('YYYY-MM-DD');
       $scope.endDate = moment(m).add(10, 'days').format('YYYY-MM-DD');
-      $scope.choiceDate=$scope.startDate+"到"+$scope.endDate;
       
       $scope.startTime = m.format('HH:mm:ss');
       $scope.endTime = moment(m).add(10, 'minutes').format('HH:mm:ss');
-      $scope.choiceTime=$scope.startTime+"至"+$scope.endTime;
 
       $scope.startDatetime = m.format('YYYY-MM-DD HH:mm:ss');
       $scope.endDatetime = moment(m).add(5, 'days').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
-      $scope.choiceDatetime=$scope.startDatetime+"至"+$scope.endDatetime;
 
       $scope.startDatetime0 = m.format('YYYY-MM-DD HH:mm:ss');
       $scope.endDatetime0 = moment(m).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
-      $scope.choiceDatetime0=$scope.startDatetime0+"至"+$scope.endDatetime0;
 
       $scope.max = moment(m).add(10, 'days').format('YYYY-MM-DD');
       $scope.min = moment(m).add(-10, 'days').format('YYYY-MM-DD');

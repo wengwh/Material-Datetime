@@ -262,7 +262,6 @@
   function mdDatetimeDirective() {
     return {
       restrict: 'E',
-      require: 'choice',
       scope: {
         dtType: '@',
         dtQSelect: '=',
@@ -286,7 +285,7 @@
         dtLanguage: '='
       },
       template: [
-      	'<input ng-click="open($event)" ng-model="choice"></input>',
+      	'<input ng-click="open($event)" ng-model="dateModel"></input>',
       	'<div dt-id="{{dtId}}" ng-if="isPanelLoading" ng-class="isPanelOpen ? \'open\' : \'\'" class="md-datetime-wrapper">',
         '<div class="md-datetime">',
         '  <div layout="row">',
@@ -302,7 +301,7 @@
 
   
   function MdDatetimeCtrl($scope, $element, $attrs, $document, $timeout, $q, $mdUtil, $mdDialog) {
-  	 if(typeof moment !== 'function' || !moment.fn) {
+     if(typeof moment !== 'function' || !moment.fn) {
        console.log('cant find momentjs lib');
        return;
      }
@@ -316,9 +315,12 @@
      $scope.isPanelLoading = false;
      $scope.isPanelOpen = false;
      
+     $scope.splitChoice = $scope.splitChoice ? $scope.splitChoice : '至';
+     
      $scope.months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
      $scope.hours = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
      $scope.minutesSeconds = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59'];
+
 
      $scope.staticString = STATIC_STRING['cn'];
      if($attrs.dtLanguage) {
@@ -405,23 +407,27 @@
      $scope.isDateRange = $scope.dtType === DATE_TYPE.DATE_RANGE || $scope.dtType === DATE_TYPE.DATETIME_RANGE;
      $scope.isSetToday = $scope.dtType === DATE_TYPE.DATE || $scope.dtType === DATE_TYPE.DATETIME || $scope.dtType === DATE_TYPE.DATE_TIMERANGE;
      $scope.isDiaplayBlock = $scope.dtType === DATE_TYPE.TIME_RANGE || $scope.dtType === DATE_TYPE.DATE_TIMERANGE;
-
-     
+ 			
      if($scope.isRange){
-    	 $scope.splitChoice = $scope.splitChoice?$scope.splitChoice:'至';
+       $scope.dateModel = $scope.startChoice + $scope.splitChoice + $scope.endChoice;
+     }else {
+       $scope.dateModel = $scope.choice;
      }
      
-     $scope.$watch('choice', function (newValue, oldValue) {
-    	 if($scope.isRange){
-	  		 if(newValue === '' || newValue === null){
-		  			 $scope.startChoice = null;
-		  			 $scope.endChoice = null;
-	  		 }else{
-	  			 $scope.startChoice = newValue.split($scope.splitChoice)[0];
-	  			 $scope.endChoice = newValue.split($scope.splitChoice)[1];
-	  		 }
-    	 }
-			 $scope.init();
+     $scope.$watch('dateModel', function (newValue, oldValue) {
+       if($scope.isRange) {
+         if(newValue === '' || newValue === null){
+           $scope.startChoice = null;
+           $scope.endChoice = null;
+         }else{
+           $scope.startChoice = newValue.split($scope.splitChoice)[0];
+           $scope.endChoice = newValue.split($scope.splitChoice)[1];
+	     }
+       } else {
+         $scope.choice = newValue;
+       }
+       
+       $scope.init();
      });
      
      $scope.setDate = function(picker, dayInfo) {
@@ -517,6 +523,7 @@
      $scope.isDatetimeInvalid = function() {
        return $scope.pickers[0].isInvalid || ($scope.pickers[1] && $scope.pickers[1].isInvalid);
      };
+     
 
      $scope = angular.extend($scope, {
        minusYear: function(picker) {
@@ -586,10 +593,11 @@
            if(picker0 && picker1) {
              $scope.startChoice = moment(picker0.datetime).format($scope.format);
              $scope.endChoice = moment(picker1.datetime).format($scope.format);
-             $scope.choice = $scope.startChoice+$scope.splitChoice+$scope.endChoice;
+             $scope.dateModel = $scope.startChoice + $scope.splitChoice + $scope.endChoice;
              $scope.dtConfirm({ startChoice: $scope.startChoice, endChoice: $scope.endChoice });
            } else {
              $scope.choice = moment(picker0.datetime).format($scope.format);
+             $scope.dateModel = $scope.choice;
              $scope.dtConfirm({ choice: $scope.choice });
            }
          }
@@ -600,8 +608,7 @@
        }
     });
 
-    $scope.init();
-
+		
     $scope.$on('$destroy', function() {
       var wrapper = $scope.getCorrectDatetimePicker().parent();
       wrapper.remove();
@@ -735,6 +742,7 @@
       }
     };
    
+    $scope.init();
   }
 
   /**
