@@ -15,8 +15,8 @@ function mdDatetimeDirective() {
             // datetime params
             startChoice: '=',   // illustrate start datetime if dtType is **-range 
             endChoice: '=',     // illustrate end datetime if dtType is **-range 
-            choice: '=',        // illustrate datetime if dtType is not **-range
-            splitChoice: '@',
+            choice: '=',        // illustrate datetime,if dtType is **-range it equals startChoice+splitChoice+endChoice,not range ng-model 
+            splitChoice: '@',   // illustrate range default:至
         
             // restrict datetime params
             max: '@',           // illustrate max datetime can select
