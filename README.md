@@ -1,5 +1,11 @@
 ## 基于ng-datetime做了修改新的md-datetime
  
+### install the directive
+```
+bower i --save material-datetime
+
+```
+ 
 ### what is the directive
 ```
 function mdDatetimeDirective() {
