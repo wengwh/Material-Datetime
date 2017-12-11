@@ -1,8 +1,11 @@
 {
-  "name": "ng-datetime",
+  "name": "md-datetime",
   "version": "0.1.1",
   "license": "MIT",
-  "main": "",
+  "main":  [
+    "src/md-datetime.css",
+    "src/md-datetime.js"
+  ],
   "ignore": [],
   "dependencies": {
     "moment": "^2.17.1"

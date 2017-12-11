@@ -2,9 +2,10 @@
  
 ### what is the directive
 ```
-function ngDatetimeDirective() {
+function mdDatetimeDirective() {
     return {
         restrict: 'E',          // only element
+        require: 'choice',
         scope: {
             dtType: '@',        // illustrate current datetime pciker type
             dtQSelect: '=',     // illustrate quick select
@@ -15,6 +16,7 @@ function ngDatetimeDirective() {
             startChoice: '=',   // illustrate start datetime if dtType is **-range 
             endChoice: '=',     // illustrate end datetime if dtType is **-range 
             choice: '=',        // illustrate datetime if dtType is not **-range
+            splitChoice: '@',
         
             // restrict datetime params
             max: '@',           // illustrate max datetime can select

@@ -286,7 +286,7 @@
         dtLanguage: '='
       },
       template: [
-      	'<input ng-click="open($event)" ng-change="init()" ng-model="choice" ></input>',
+      	'<input ng-click="open($event)" ng-model="choice"></input>',
       	'<div dt-id="{{dtId}}" ng-if="isPanelLoading" ng-class="isPanelOpen ? \'open\' : \'\'" class="md-datetime-wrapper">',
         '<div class="md-datetime">',
         '  <div layout="row">',
@@ -409,18 +409,20 @@
      
      if($scope.isRange){
     	 $scope.splitChoice = $scope.splitChoice?$scope.splitChoice:'至';
-    	 
-    	 $scope.$watch('choice', function (newValue, oldValue) {
-    		 console.info("watch:"+newValue)
-    		 if(newValue === '' || newValue === null){
-    			 $scope.startChoice = null;
-    			 $scope.endChoice = null;
-    		 }else{
-    			 $scope.startChoice = newValue.split($scope.splitChoice)[0];
-    			 $scope.endChoice = newValue.split($scope.splitChoice)[1];
-    		 }
-       });
      }
+     
+     $scope.$watch('choice', function (newValue, oldValue) {
+    	 if($scope.isRange){
+	  		 if(newValue === '' || newValue === null){
+		  			 $scope.startChoice = null;
+		  			 $scope.endChoice = null;
+	  		 }else{
+	  			 $scope.startChoice = newValue.split($scope.splitChoice)[0];
+	  			 $scope.endChoice = newValue.split($scope.splitChoice)[1];
+	  		 }
+    	 }
+			 $scope.init();
+     });
      
      $scope.setDate = function(picker, dayInfo) {
        $scope.setPickerDatetimeInfo(picker, dayInfo.datetime);
@@ -596,9 +598,9 @@
            $mdDialog.cancel();
          }
        }
-     });
+    });
 
-     $scope.init();
+    $scope.init();
 
     $scope.$on('$destroy', function() {
       var wrapper = $scope.getCorrectDatetimePicker().parent();
