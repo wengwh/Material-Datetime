@@ -1,7 +1,7 @@
 {
   "name": "material-datetime",
   "license": "MIT",
-  "main":  [
+  "main": [
     "src/md-datetime.css",
     "src/md-datetime.js"
   ],

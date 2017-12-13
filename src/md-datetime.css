@@ -1,6 +1,7 @@
 md-datetime {
   border-radius: 4px;
   display: inline-block;
+  width: 100%;
 }
 .md-datetime {
   background: white;
