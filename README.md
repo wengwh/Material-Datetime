@@ -3,7 +3,6 @@
 ### install the directive
 ```
 bower i --save material-datetime
-
 ```
  
 ### what is the directive
@@ -21,7 +20,7 @@ function mdDatetimeDirective() {
             // datetime params
             startChoice: '=',   // illustrate start datetime if dtType is **-range 
             endChoice: '=',     // illustrate end datetime if dtType is **-range 
-            choice: '=',        // illustrate datetime,if dtType is **-range it equals startChoice+splitChoice+endChoice,not range ng-model 
+            choice: '=',        // illustrate datetime,if dtType is not **-range 
             splitChoice: '@',   // illustrate range default:至
         
             // restrict datetime params

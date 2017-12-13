@@ -36,7 +36,7 @@
       <h3>Time Picker</h3>
       <h4>You select: {{ time }}</h4>
       <md-input-container>
-      <md-datetime dt-type="time" choice="time" dt-confirm="confirm(choice)"></md-datetime>
+      	<md-datetime dt-type="time" choice="time" dt-confirm="confirm(choice)"></md-datetime>
       </md-input-container>
     </div>
     <div class="wrapper">
@@ -50,7 +50,7 @@
       <h3>Date-Range Picker with max-length = 10 days & min-length = 5 days</h3>
       <h4>You select: {{ startDate }} to {{ endDate }}</h4>
       <md-input-container>
-      	<md-datetime dt-type="date-range" split-choice="到" start-choice="startDate" end-choice="endDate" dt-confirm="confirm(startChoice, endChoice)" max-length="10" min-length="5"></md-datetime>
+      	<md-datetime dt-type="date-range" choice="choiceDate" split-choice="到" start-choice="startDate" end-choice="endDate" dt-confirm="confirm(startChoice, endChoice)" max-length="10" min-length="5"></md-datetime>
       </md-input-container>
     </div>
     <div class="wrapper">
@@ -64,14 +64,14 @@
       <h3>Datetime-Range Picker with quick-select</h3>
       <h4>You select: {{ startDatetime }} to {{ endDatetime }}</h4>
       <md-input-container>
-        <md-datetime dt-type="datetime-range" start-choice="startDatetime" end-choice="endDatetime" dt-confirm="confirm(startChoice, endChoice)" dt-q-select="qSelectRange"></md-datetime>
+        <md-datetime dt-type="datetime-range" choice="choiceDatetime" start-choice="startDatetime" end-choice="endDatetime" dt-confirm="confirm(startChoice, endChoice)" dt-q-select="qSelectRange"></md-datetime>
       </md-input-container>
     </div>
     <div class="wrapper">
       <h3>Date-TimeRange Picker with customer language</h3>
       <h4>You select: {{ startDatetime0 }} to {{ endDatetime0 }}</h4>
       <md-input-container>
-        <md-datetime dt-type="date-timerange" start-choice="startDatetime0" end-choice="endDatetime0" dt-confirm="confirm(startChoice, endChoice)" dt-language="dtLanguage"></md-datetime>
+        <md-datetime dt-type="date-timerange" choice="choiceDatetime0" start-choice="startDatetime0" end-choice="endDatetime0" dt-confirm="confirm(startChoice, endChoice)" dt-language="dtLanguage"></md-datetime>
       </md-input-container>
     </div>
   </div>
