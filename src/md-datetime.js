@@ -414,7 +414,11 @@
     $scope.isDiaplayBlock = $scope.dtType === DATE_TYPE.TIME_RANGE || $scope.dtType === DATE_TYPE.DATE_TIMERANGE;
 
     if ($scope.isRange) {
-      $scope.dateModel = $scope.startChoice + $scope.splitChoice + $scope.endChoice;
+    	if($scope.startChoice && $scope.endChoice){
+      	$scope.dateModel = $scope.startChoice + $scope.splitChoice + $scope.endChoice;
+    	}else{
+    		$scope.dateModel = null;
+    	}
     } else {
       $scope.dateModel = $scope.choice;
     }
