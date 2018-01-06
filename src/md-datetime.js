@@ -617,14 +617,18 @@
     });
 
     $scope.$on('$destroy', function() {
-      var wrapper = $scope.getCorrectDatetimePicker().parent();
-      wrapper.remove();
+      var element = $scope.getCorrectDatetimePicker();
+      if(element != null){
+        element.parent().remove();
+      }
     });
 
     $scope.$watch('$scope.isPanelOpen', function() {
       if (!$scope.isPanelOpen) {
-        var element = $scope.getCorrectDatetimePicker().parent();
-        element.removeClass('x50 y50 xy50');
+        var element = $scope.getCorrectDatetimePicker();
+        if(element != null){
+          element.parent().removeClass('x50 y50 xy50');
+        }
       }
     });
 
@@ -666,7 +670,7 @@
           return angular.element(dtEle.children()[0]);
         }
       }
-      return allDTs;
+      return null;
     };
 
     $scope.appendCalendarPanel = function() {
